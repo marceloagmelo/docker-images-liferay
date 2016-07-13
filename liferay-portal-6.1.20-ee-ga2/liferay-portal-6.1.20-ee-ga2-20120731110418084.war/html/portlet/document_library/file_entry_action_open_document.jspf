@@ -1,0 +1,48 @@
+<%--
+/**
+ * Copyright (c) 2000-2012 Liferay, Inc. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of the Liferay Enterprise
+ * Subscription License ("License"). You may not use this file except in
+ * compliance with the License. You can obtain a copy of the License by
+ * contacting Liferay, Inc. See the License for the specific language governing
+ * permissions and limitations under the License, including but not limited to
+ * distribution rights of the Software.
+ *
+ *
+ *
+ */
+--%>
+
+<c:if test="<%= DLFileEntryPermission.contains(permissionChecker, fileEntry, ActionKeys.VIEW) %>">
+
+	<%
+	if (portletDisplay.isWebDAVEnabled() && BrowserSnifferUtil.isIe(request)) {
+		String webDavUrl = DLUtil.getWebDavURL(themeDisplay, fileEntry.getFolder(), fileEntry);
+
+		String curExtension = fileEntry.getExtension();
+
+		if (curExtension.equalsIgnoreCase("doc") ||
+			curExtension.equalsIgnoreCase("docx") ||
+			curExtension.equalsIgnoreCase("dot") ||
+			curExtension.equalsIgnoreCase("ppt") ||
+			curExtension.equalsIgnoreCase("pptx") ||
+			curExtension.equalsIgnoreCase("xls") ||
+			curExtension.equalsIgnoreCase("xlsx")) {
+
+			String taglibOnClick = "Liferay.fire('" + liferayPortletResponse.getNamespace() + "openDocument', {webDavUrl: '" + webDavUrl + "'});";
+	%>
+
+			<liferay-ui:icon
+				image="../document_library/msoffice"
+				message="open-in-ms-office"
+				onClick="<%= taglibOnClick %>"
+				url="javascript:;"
+			/>
+
+	<%
+		}
+	}
+	%>
+
+</c:if>
