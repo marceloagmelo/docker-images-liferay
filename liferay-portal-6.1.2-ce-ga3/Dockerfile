@@ -63,9 +63,12 @@ RUN (cd ${TOMCAT_HOME}/webapps/ROOT/ &&\
 
 COPY ${LIFERAY_WAR}.war ${TOMCAT_HOME}/webapps/ROOT/
 
-#RUN (cd /tmp/ &&	rm *.*)
+RUN mkdir -p ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/classes/novoehcache
 	
-ADD portal-ext.properties ${LIFERAY_HOME}/portal-ext.properties
+ADD cluster/portal-ext.properties ${LIFERAY_HOME}/portal-ext.properties
+ADD cluster/hibernate-clustered.xml ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/classes/novoehcache/
+ADD cluster/liferay-multi-vm-clustered.xml ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/classes/novoehcache/
+ADD cluster/web.xml ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/
 
 EXPOSE 8080
 
