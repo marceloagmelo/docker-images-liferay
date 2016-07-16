@@ -38,20 +38,11 @@ ADD lib/jta-3.1.2.2.jar ${TOMCAT_HOME}/lib/ext/
 # add setenv.sh
 ADD setenv.sh ${TOMCAT_HOME}/bin/setenv.sh
 
-# add ROOT.xml
-RUN mkdir -p ${TOMCAT_HOME}/conf/Catalina/localhost
-ADD ROOT.xml ${TOMCAT_HOME}/conf/Catalina/localhost/ROOT.xml
+ADD portal-ext.properties ${LIFERAY_HOME}/portal-ext.properties
 
-# Add licença liferay
-#ADD licenca/* ${LIFERAY_HOME}/deploy/
+# Add jdbc
+ADD jdbc/* ${TOMCAT_HOME}/lib/ext/
 
-# patch files
-#ADD catalina.properties.patch /tmp/catalina.properties.patch
-#RUN (patch ${TOMCAT_HOME}/conf/catalina.properties < /tmp/catalina.properties.patch &&\
-#	rm /tmp/catalina.properties.patch)
-#ADD server.xml.patch /tmp/server.xml.patch
-#RUN (patch ${TOMCAT_HOME}/conf/server.xml < /tmp/server.xml.patch &&\
-#	rm /tmp/server.xml.patch)
 ADD catalina.properties /tmp/catalina.properties
 RUN mv /tmp/catalina.properties ${TOMCAT_HOME}/conf/catalina.properties
 ADD server.xml /tmp/server.xml
@@ -65,7 +56,6 @@ COPY ${LIFERAY_WAR}.war ${TOMCAT_HOME}/webapps/ROOT/
 
 RUN mkdir -p ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/classes/novoehcache
 	
-ADD cluster/portal-ext.properties ${LIFERAY_HOME}/portal-ext.properties
 ADD cluster/hibernate-clustered.xml ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/classes/novoehcache/
 ADD cluster/liferay-multi-vm-clustered.xml ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/classes/novoehcache/
 ADD cluster/web.xml ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/
